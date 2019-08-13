@@ -5,59 +5,83 @@ package com.example.pc_1.akb.Adapter;
  Al Ghani Iqbal Dzulfiqar
  AKB -3
  **/
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.pc_1.akb.DetailActivity;
+import com.example.pc_1.akb.Model.FriendModel;
 import com.example.pc_1.akb.Model.Friends;
 import com.example.pc_1.akb.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MahasiswaViewHolder> {
+public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHolder> {
+    private List<FriendModel> friendModels;
+    Context context;
 
-
-    private ArrayList<Friends> dataList;
-
-    public FriendsAdapter(ArrayList<Friends> dataList) {
-        this.dataList = dataList;
+    public FriendsAdapter(Context context, List<FriendModel> friendModels){
+        this.context = context;
+        this.friendModels = friendModels;
     }
 
     @Override
-    public MahasiswaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.row_mahasiswa, parent, false);
-        return new MahasiswaViewHolder(view);
+    public FriendsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_mahasiswa, parent, false);
+        return new MyViewHolder(v);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(MahasiswaViewHolder holder, int position) {
-        holder.txtNama.setText(dataList.get(position).getNama());
-        holder.txtNim.setText(dataList.get(position).getNim());
-        holder.txtKelas.setText(dataList.get(position).getKelas());
-        holder.txtTelp.setText(dataList.get(position).getTelp());
-        holder.txtEmail.setText(dataList.get(position).getEmail());
-        holder.txtSocmed.setText(dataList.get(position).getSocmed());
+    public void onBindViewHolder(FriendsAdapter.MyViewHolder holder, int position) {
+        final FriendModel model = friendModels.get(position);
+        int snim = model.getNim();
+        holder.nim.setText(Integer.toString(snim));
+        holder.nama.setText(model.getNama());
+        holder.kelas.setText(model.getKelas());
+        holder.telp.setText(model.getTelp());
+        holder.email.setText(model.getEmail());
+        holder.socmed.setText(model.getSocmed());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), DetailActivity.class);
+                int snim = model.getNim();
+                int sid = model.getId();
+                intent.putExtra("id", Integer.toString(sid));
+                intent.putExtra("nim", Integer.toString(snim));
+                intent.putExtra("nama", model.getNama());
+                intent.putExtra("kelas",model.getKelas());
+                intent.putExtra("telp",model.getTelp());
+                intent.putExtra("email",model.getEmail());
+                intent.putExtra("socmed",model.getSocmed());
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return (dataList != null) ? dataList.size() : 0;
+        return friendModels.size();
     }
 
-    public class MahasiswaViewHolder extends RecyclerView.ViewHolder{
-        private TextView txtNama, txtNim, txtKelas,txtTelp,txtEmail,txtSocmed;
+    public class MyViewHolder extends RecyclerView.ViewHolder{
+        TextView nim, nama,kelas,telp,email,socmed;
 
-        public MahasiswaViewHolder(View itemView) {
+        public MyViewHolder(View itemView){
             super(itemView);
-            txtNama = (TextView) itemView.findViewById(R.id.txt_nama);
-            txtNim = (TextView) itemView.findViewById(R.id.txt_nim);
-            txtKelas = (TextView) itemView.findViewById(R.id.txt_kelas);
-            txtTelp = (TextView) itemView.findViewById(R.id.txt_telp);
-            txtEmail = (TextView) itemView.findViewById(R.id.txt_email);
-            txtSocmed = (TextView) itemView.findViewById(R.id.txt_socmed);
+            nim = itemView.findViewById(R.id.txt_nim);
+            nama = itemView.findViewById(R.id.txt_nama);
+            kelas = itemView.findViewById(R.id.txt_kelas);
+            telp = itemView.findViewById(R.id.txt_telp);
+            email = itemView.findViewById(R.id.txt_email);
+            socmed = itemView.findViewById(R.id.txt_socmed);
         }
     }
 }

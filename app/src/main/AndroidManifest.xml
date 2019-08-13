@@ -10,7 +10,8 @@
         android:label="MINE"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".Splash">
             <intent-filter>
