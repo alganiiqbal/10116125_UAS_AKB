@@ -8,6 +8,7 @@ package com.example.pc_1.akb;
 
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -149,8 +150,24 @@ public class MenuFriends extends Fragment {
                 realmHelper = new RealmHelper(realm);
                 realmHelper.save(friendModel);
 
-                Toast.makeText(getActivity(), "Teman Berhasil Ditambah!", Toast.LENGTH_SHORT).show();
+                final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+                progressDialog.setIndeterminate(true);
+                progressDialog.setMessage("Menambah Kontak Teman...");
+                progressDialog.show();
+
+                // TODO: Implement your own authentication logic here.
+
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                // On complete call either onLoginSuccess or onLoginFailed
+
+                Toast.makeText(getActivity(), "Berhasil Menambah Kontak Teman!", Toast.LENGTH_SHORT).show();
                 onResume();
+                                // onLoginFailed();
+                                progressDialog.dismiss();
+                            }
+                        }, 1800);
 
 
 

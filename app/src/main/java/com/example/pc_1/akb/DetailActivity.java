@@ -1,5 +1,6 @@
 package com.example.pc_1.akb;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         Socmed = findViewById(R.id.etSocmed);
         btn_hapus = findViewById(R.id.btnHapus);
         btn_ubah = findViewById(R.id.btnUpdate);
-        btn_kembali = findViewById(R.id.btnCancel);
+
 
         snim = i.getStringExtra("nim");
         nama = i.getStringExtra("nama");
@@ -60,7 +61,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         Email.setText(email);
         Socmed.setText(socmed);
 
-        btn_kembali.setOnClickListener(this);
+
         btn_hapus.setOnClickListener(this);
         btn_ubah.setOnClickListener(this);
 
@@ -71,15 +72,43 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         if (v == btn_ubah){
             realmHelper.update(id,Integer.parseInt(Nim.getText().toString()),Nama.getText().toString(),Kelas.getText().toString(),
                     Telp.getText().toString(),Email.getText().toString(),Socmed.getText().toString());
-            Toast.makeText(DetailActivity.this, "Update Success", Toast.LENGTH_SHORT).show();
+            final ProgressDialog progressDialog = new ProgressDialog(DetailActivity.this);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Edit Kontak...");
+            progressDialog.show();
+
+            // TODO: Implement your own authentication logic here.
+
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            // On complete call either onLoginSuccess or onLoginFailed
+            Toast.makeText(DetailActivity.this, "Berhasil Menyunting Kontak Teman !", Toast.LENGTH_SHORT).show();
             Nim.setText("");
             Nama.setText("");
             finish();
+                            progressDialog.dismiss();
+                        }
+                    }, 1800);
+
         }else if (v == btn_hapus) {
             realmHelper.delete(nim);
-            Toast.makeText(DetailActivity.this, "Delete Success", Toast.LENGTH_SHORT).show();
+            final ProgressDialog progressDialog = new ProgressDialog(DetailActivity.this);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Menghapus Kontak...");
+            progressDialog.show();
+
+            // TODO: Implement your own authentication logic here.
+
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            // On complete call either onLoginSuccess or onLoginFailed
+            Toast.makeText(DetailActivity.this, "Berhasil Menghapus Kontak Teman!", Toast.LENGTH_SHORT).show();
             finish();
-        }else if (v == btn_kembali) {
+                            progressDialog.dismiss();
+                        }
+                    }, 1800);
 
         }
     }

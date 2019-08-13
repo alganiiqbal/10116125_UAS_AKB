@@ -1,5 +1,6 @@
 package com.example.pc_1.akb;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,12 +10,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.prefs.Preferences;
 
 public class LoginActivity extends AppCompatActivity {
     EditText Edtuser,Edtpass;
+    String user,pass;
     Button Btnlogin,Btnregister;
+    TextView register_link;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,29 +27,64 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         checkFirstRun();
 
-        Edtuser = findViewById(R.id.edt_username);
-        Edtpass = findViewById(R.id.edt_password);
+        Edtuser = findViewById(R.id.Edtuser);
+        Edtpass = findViewById(R.id.Edtpass);
         Btnlogin = findViewById(R.id.btn_login);
-        Btnregister = findViewById(R.id.btn_register);
+        register_link = findViewById(R.id.link_signup);
         Btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            String user = Edtuser.getText().toString();
-            String pass = Edtpass.getText().toString();
+             user = Edtuser.getText().toString();
+             pass = Edtpass.getText().toString();
 
-            if(!cekUser(user)||!cekPassword(pass)){
-                Dialog();
-            }
-            else{
-                login();
-            }
+                final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+                progressDialog.setIndeterminate(true);
+                progressDialog.setMessage("Authenticating...");
+                progressDialog.show();
+
+                // TODO: Implement your own authentication logic here.
+
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                // On complete call either onLoginSuccess or onLoginFailed
+                                if(user.isEmpty()||user.equals(""))
+                                {
+                                    Toast.makeText(LoginActivity.this, "Field User Masih Kosong!", Toast.LENGTH_SHORT).show();
+                                    Edtuser.requestFocus();
+                                }
+                                else if(pass.isEmpty()||pass.equals("")){
+                                    Toast.makeText(LoginActivity.this, "Field Password Masih Kosong!", Toast.LENGTH_SHORT).show();
+                                    Edtpass.requestFocus();
+                                }
+
+
+                                else if(user.equals("Admin")&&pass.equals("Admin")){
+                                    login();
+
+                                }
+                                else if(!cekUser(user)||!cekPassword(pass)){
+                                    Toast.makeText(LoginActivity.this, "Username atau Password SALAH!!", Toast.LENGTH_SHORT).show();
+                                    Edtuser.setText("");
+                                    Edtpass.setText("");
+                                    Edtuser.requestFocus();
+                                }
+                                else{
+                                    login();
+                                }
+                                // onLoginFailed();
+                                progressDialog.dismiss();
+                            }
+                        }, 2200);
+
+
 
             }
         });
 
 
 
-        Btnregister.setOnClickListener(new View.OnClickListener() {
+        register_link.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LoginActivity.this,RegisterActivity.class);
@@ -71,40 +111,17 @@ public class LoginActivity extends AppCompatActivity {
         return user.equals(Pref.getRegisteredUser(getBaseContext()));
     }
 
-    private void Dialog(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                this);
-        alertDialogBuilder.setTitle("Username atau Password anda salah !");
-        alertDialogBuilder
-                .setMessage("Silahkan Masukan Kembali username atau password yang benar!")
-                .setIcon(R.mipmap.ic_launcher)
-                .setCancelable(false)
-                .setPositiveButton("OK",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-                        LoginActivity.this.finish();
-                    }
-                });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
+
 
     private void checkFirstRun() {
 
         final String PREFS_NAME = "MyPrefsFile";
         final String PREF_VERSION_CODE_KEY = "version_code";
         final int DOESNT_EXIST = -1;
-
-        // Get current version code
         int currentVersionCode = BuildConfig.VERSION_CODE;
-
-        // Get saved version code
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
-
-        // Check for first run or upgrade
         if (currentVersionCode == savedVersionCode) {
-
-            // This is just a normal run
             return;
 
         } else if (savedVersionCode == DOESNT_EXIST) {
@@ -114,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
 
         } else if (currentVersionCode > savedVersionCode) {
 
-            // TODO This is an upgrade
+
         }
 
         // Update the shared preferences with the current version code

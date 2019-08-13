@@ -7,45 +7,78 @@
     card_view:cardCornerRadius="6dp"
     card_view:cardElevation="3dp"
     card_view:cardUseCompatPadding="true">
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+
+        >
+
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center"
+        android:id="@+id/samping"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <ImageView
+        android:src="@drawable/ic_person_black_24dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/samping"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:orientation="vertical"
         android:padding="5dp">
 
 
-        <TextView
-            android:id="@+id/txt_nim"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+
 
 
         <TextView
             android:id="@+id/txt_nama"
+            android:textSize="18dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/txt_kelas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Nama"/>
 
 
+
         <TextView
+            android:textSize="1dp"
+            android:visibility="invisible"
             android:id="@+id/txt_telp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/txt_email"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email"/>
+        <TextView
+            android:visibility="invisible"
+            android:textSize="1dp"
+            android:id="@+id/txt_socmed"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
-            android:id="@+id/txt_socmed"
+            android:id="@+id/txt_nim"
+            android:textSize="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"/>
+        <TextView
+            android:textSize="1dp"
+            android:visibility="invisible"
+            android:id="@+id/txt_kelas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
 
     </LinearLayout>
-
+    </LinearLayout>
 </android.support.v7.widget.CardView>
