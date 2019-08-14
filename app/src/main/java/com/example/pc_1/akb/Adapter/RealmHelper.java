@@ -1,4 +1,10 @@
 package com.example.pc_1.akb.Adapter;
+/**
+ 12/08/2019
+ 10116125
+ Al Ghani Iqbal Dzulfiqar
+ AKB -3
+ **/
 import android.util.Log;
 
 import com.example.pc_1.akb.Model.FriendModel;

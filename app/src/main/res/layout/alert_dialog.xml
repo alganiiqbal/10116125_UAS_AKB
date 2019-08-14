@@ -34,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Telp"/>
+
     <EditText
         android:inputType="number"
         android:id="@+id/txt_telp_dialog"

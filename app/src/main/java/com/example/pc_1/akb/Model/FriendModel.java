@@ -1,4 +1,10 @@
 package com.example.pc_1.akb.Model;
+/**
+ 12/08/2019
+ 10116125
+ Al Ghani Iqbal Dzulfiqar
+ AKB -3
+ **/
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
